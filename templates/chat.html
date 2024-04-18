@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zap Gui Lolo</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        #top-bar {
+            background-color: #1271b4;
+            color: #FFF;
+            padding: 10px;
+            text-align: center;
+        }
+
+        #chat-container {
+            padding: 10px;
+            height: calc(100vh - 150px);
+            overflow-y: scroll;
+        }
+
+        #chat-container p {
+            background-color: #c6def8;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+
+        #input-container {
+            display: flex;
+            align-items: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #F4F4F4;
+            padding: 10px;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        #input-container input[type="text"] {
+            padding: 10px;
+            border: none;
+            outline: none;
+            flex: 1;
+        }
+        #usuario {
+            padding: 10px;
+            border: none;
+            outline: none;
+            flex: 1;
+        }
+
+        #usuario {
+            margin-right: 10px;
+            width: 30%;
+        }
+
+        #input-container input#mensagem {
+            flex: 1;
+        }
+
+        #input-container button {
+            padding: 10px 20px;
+            background-color: #1271b4;
+            color: #FFF;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+    <div id="top-bar">
+        <h1>Zap Gui do Lolo</h1>
+    </div>
+
+    <div id="chat-container">
+        <p>Bem-vindo ao Zap Gui do Lolo</p>
+    </div>
+
+    <div id="input-container">
+        <select name="usuario" id="usuario" onchange="recuperarMensagens()">
+            <option value="telefone">Selecione o contato que você deseja conversar</option>
+        </select>
+        <div style="width: 10px;"></div>
+        <input type="text" id="mensagem" placeholder="Mensagem" required>
+        <button>Enviar</button>
+    </div>
+
+    <script type="text/javascript">
+        function solicitarUsuarios(){
+            $.ajax({
+                url: "/mostrar_usuarios",
+                type: "GET",
+                success: function(usuarios){
+                    for(let cont = 0; cont < usuarios.length; cont++){
+                        $('#usuario').append(`
+                            <option value="${usuarios[cont]['telefone']}"> ${usuarios[cont]['nome']}</option>
+                        `)
+                    }
+                },
+                error: function(){
+                    alert("Erro ao recuperar os contatos!")
+                }
+            })
+        }
+
+        $(document).ready(solicitarUsuarios())
+
+    </script>
+
+    <script text="text/javascript">
+        function recuperarMensagens(){
+            // Solicitando as mensagens via ajax
+            $.ajax({
+                url:'/get/mensagens/' + $("#usuario").val(),
+                type:'GET',
+                success: function(lista_mensagens){
+                    $("#chat-container").empty()
+                    for(let index = 0; index < lista_mensagens.length; index ++){
+                        let tag = lista_mensagens[index]["nome"]+": "+"<p>"+lista_mensagens[index]["mensagem"]+"</p>"
+                        $("#chat-container").append(tag)  
+                    }
+                }
+            })
+        }
+
+        
+        $(document).ready(recuperarMensagens())
+
+    </script>
+
+    <script type="text/javascript">
+        function enviarMensagem() {
+            let mensagem = $("input[type='text']").val();
+            let tel_destinatario = $("#usuario").val();
+
+            if (mensagem !== "" && tel_destinatario !== "telefone") {
+                let dados = {
+                    mensagem: mensagem,
+                    tel_destinatario: tel_destinatario
+                };
+
+                $.ajax({
+                    url: "/post/mensagens",
+                    type: "POST",
+                    contentType: "application/json", 
+                    data: JSON.stringify(dados), 
+                    success: function(response) {
+                        console.log("Mensagem enviada com sucesso:", response);
+                        $("input[type='text']").val("");
+                        recuperarMensagens();
+                    },
+                    error: function() {
+                        alert("Erro ao enviar mensagem!");
+                    }
+                });
+            }
+        }
+
+        $(document).ready(function() {
+            $("button").click(enviarMensagem);
+        });
+    </script>
+
+</body>
+</html>

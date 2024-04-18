@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            background: linear-gradient(rgb(0, 136, 255),rgb(0, 255, 255));
+        }
+
+        .container_cadastro{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cadastro{
+            margin: 50px;
+            border: solid 5px black;
+            border-radius: 20px;
+            padding: 20px;
+            width: 500px;
+        }
+
+        .cadastro form{
+          text-decoration:underline 1.5px;
+          font-weight: 700;
+          text-align: center;
+        }
+        
+        .cadastro .btns button{
+            height: 50px;
+            width: 90px;
+            border-radius: 20px;
+            background-color: rgb(36, 90, 191);
+            color: white;
+            text-decoration: underline 1.5px;
+            font-weight: 700;
+        }
+
+        .btns{
+          display: flex;
+          justify-content: space-around;
+        }
+
+        .cadastro .btns a{
+            color: rgb(255, 255, 255);
+        }
+
+        footer{
+            justify-content: end;
+        }
+    </style>
+
+    <title>Site</title>
+</head>
+<body>
+    <nav>
+        <div class="nav-wrapper blue darken-4">
+          <a href="/" class="brand-logo">Cadastro</a>
+          
+        </div>
+    </nav>
+    <div class="container_cadastro">
+        <div class="cadastro">    
+            <form action="/" method="post">
+                Nome:
+                <input type="text" name="nome" id="nome">
+                Telefone:
+                <input type="text" name="telefone" id="telefone">
+                Senha:
+                <input type="password" name="senha" id="senha">
+
+                <div class="btns">
+                  <button type="submit">Cadastrar</button>
+
+                  <button><a href="/login">Login</a></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="page-footer  blue darken-4">
+        <div class="container">
+          <div class="row">
+            <div class="col l6 s12">
+              <h5 class="white-text">Bernas Zap</h5>
+              <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+            </div>
+            <div class="col l4 offset-l2 s12">
+              <h5 class="white-text">Links</h5>
+              <ul>
+                <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+                <li><a class="grey-text text-lighten-3" href="#!"></a></li>
+                <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
+                <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="footer-copyright">
+          <div class="container">
+          © 2024 Copyright Text
+          <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+          </div>
+        </div>
+      </footer>
+
+</body>
+</html>
